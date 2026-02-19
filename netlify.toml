@@ -1,0 +1,15 @@
+[build]
+  base    = "frontend"
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  # Disable treating warnings as errors (CRA default)
+  CI = "false"
+
+# SPA fallback: all routes serve index.html (required for React Router)
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
