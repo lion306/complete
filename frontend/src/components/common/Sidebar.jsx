@@ -11,19 +11,47 @@ import {
   UsersIcon,
   EnvelopeIcon,
   ArrowRightStartOnRectangleIcon,
+  ViewColumnsIcon,
+  DevicePhoneMobileIcon,
+  DocumentMagnifyingGlassIcon,
+  ChartBarIcon,
 } from '@heroicons/react/24/outline';
 import useAuthStore from '../../store/authStore';
 import clsx from 'clsx';
 
-const navItems = [
-  { to: '/',           label: 'Dashboard',    icon: HomeIcon,         exact: true },
-  { to: '/fahrzeuge',  label: 'Fahrzeuge',    icon: TruckIcon,        perm: null },
-  { to: '/logistik',   label: 'Logistik',     icon: MapPinIcon,       perm: null },
-  { to: '/leads',      label: 'Leads',        icon: EnvelopeIcon,     perm: null },
-  { to: '/kunden',     label: 'Kunden',       icon: UserGroupIcon,    perm: null },
-  { to: '/provisionen',label: 'Provisionen',  icon: CurrencyEuroIcon, perm: 'perm_provision_sehen' },
-  { to: '/nutzer',     label: 'Nutzer',       icon: UsersIcon,        perm: 'perm_admin' },
-  { to: '/admin',      label: 'Admin',        icon: Cog6ToothIcon,    perm: 'perm_admin' },
+const navGroups = [
+  {
+    label: 'Hauptmenü',
+    items: [
+      { to: '/',           label: 'Dashboard',    icon: HomeIcon,         exact: true },
+      { to: '/fahrzeuge',  label: 'Fahrzeuge',    icon: TruckIcon },
+      { to: '/logistik',   label: 'Logistik',     icon: MapPinIcon },
+    ],
+  },
+  {
+    label: 'Workflow',
+    items: [
+      { to: '/kanban',     label: 'Kanban-Board', icon: ViewColumnsIcon },
+      { to: '/checkin',    label: 'Check-in',     icon: DevicePhoneMobileIcon },
+      { to: '/gutachten',  label: 'Gutachten',    icon: DocumentMagnifyingGlassIcon },
+      { to: '/reporting',  label: 'Reporting',    icon: ChartBarIcon },
+    ],
+  },
+  {
+    label: 'CRM',
+    items: [
+      { to: '/leads',      label: 'Leads',        icon: EnvelopeIcon },
+      { to: '/kunden',     label: 'Kunden',       icon: UserGroupIcon },
+      { to: '/provisionen',label: 'Provisionen',  icon: CurrencyEuroIcon, perm: 'perm_provision_sehen' },
+    ],
+  },
+  {
+    label: 'Verwaltung',
+    items: [
+      { to: '/nutzer',     label: 'Nutzer',       icon: UsersIcon,        perm: 'perm_admin' },
+      { to: '/admin',      label: 'Admin',        icon: Cog6ToothIcon,    perm: 'perm_admin' },
+    ],
+  },
 ];
 
 export default function Sidebar({ onClose }) {
@@ -34,10 +62,6 @@ export default function Sidebar({ onClose }) {
     await logout();
     navigate('/login');
   };
-
-  const visibleItems = navItems.filter(item =>
-    !item.perm || hasPermission(item.perm)
-  );
 
   return (
     <div className="flex flex-col h-full">
@@ -53,24 +77,37 @@ export default function Sidebar({ onClose }) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        {visibleItems.map(item => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.exact}
-            onClick={onClose}
-            className={({ isActive }) => clsx(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              isActive
-                ? 'bg-white/20 text-white'
-                : 'text-white/70 hover:text-white hover:bg-white/10'
-            )}
-          >
-            <item.icon className="w-5 h-5 flex-shrink-0" />
-            {item.label}
-          </NavLink>
-        ))}
+      <nav className="flex-1 px-3 py-4 overflow-y-auto space-y-4">
+        {navGroups.map(group => {
+          const visibleItems = group.items.filter(item => !item.perm || hasPermission(item.perm));
+          if (visibleItems.length === 0) return null;
+          return (
+            <div key={group.label}>
+              <div className="px-3 mb-1 text-xs font-semibold text-white/40 uppercase tracking-wider">
+                {group.label}
+              </div>
+              <div className="space-y-0.5">
+                {visibleItems.map(item => (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.exact}
+                    onClick={onClose}
+                    className={({ isActive }) => clsx(
+                      'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                      isActive
+                        ? 'bg-white/20 text-white'
+                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                    )}
+                  >
+                    <item.icon className="w-5 h-5 flex-shrink-0" />
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </nav>
 
       {/* User info + logout */}

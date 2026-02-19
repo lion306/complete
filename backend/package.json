@@ -33,7 +33,8 @@
     "node-cron": "^3.0.3",
     "csv-writer": "^1.6.0",
     "archiver": "^6.0.1",
-    "xml2js": "^0.6.2"
+    "xml2js": "^0.6.2",
+    "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

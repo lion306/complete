@@ -20,6 +20,10 @@ import KundeDetailPage from './pages/KundeDetailPage';
 import ProvisionPage from './pages/ProvisionPage';
 import NutzerPage from './pages/NutzerPage';
 import AdminPage from './pages/AdminPage';
+import KanbanPage from './pages/KanbanPage';
+import CheckInPage from './pages/CheckInPage';
+import GutachtenPage from './pages/GutachtenPage';
+import ReportingPage from './pages/ReportingPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -91,6 +95,10 @@ export default function App() {
                 <AdminPage />
               </PrivateRoute>
             } />
+            <Route path="kanban" element={<KanbanPage />} />
+            <Route path="checkin" element={<CheckInPage />} />
+            <Route path="gutachten" element={<GutachtenPage />} />
+            <Route path="reporting" element={<ReportingPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

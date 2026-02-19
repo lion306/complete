@@ -8,18 +8,23 @@ const { requestLogger } = require('./middleware/requestLogger');
 const logger = require('./utils/logger');
 
 // Routes
-const authRoutes = require('./routes/auth');
-const fahrzeugRoutes = require('./routes/fahrzeuge');
-const standortRoutes = require('./routes/standorte');
+const authRoutes      = require('./routes/auth');
+const fahrzeugRoutes  = require('./routes/fahrzeuge');
+const standortRoutes  = require('./routes/standorte');
 const stellplatzRoutes = require('./routes/stellplaetze');
-const kundenRoutes = require('./routes/kunden');
-const leadRoutes = require('./routes/leads');
+const kundenRoutes    = require('./routes/kunden');
+const leadRoutes      = require('./routes/leads');
 const provisionRoutes = require('./routes/provisionen');
-const dokumentRoutes = require('./routes/dokumente');
-const schadenRoutes = require('./routes/schaeden');
-const nutzerRoutes = require('./routes/nutzer');
-const exportRoutes = require('./routes/export');
-const fotoRoutes = require('./routes/fotos');
+const dokumentRoutes  = require('./routes/dokumente');
+const schadenRoutes   = require('./routes/schaeden');
+const nutzerRoutes    = require('./routes/nutzer');
+const exportRoutes    = require('./routes/export');
+const fotoRoutes      = require('./routes/fotos');
+// New modules (v2)
+const kanbanRoutes    = require('./routes/kanban');
+const gutachtenRoutes = require('./routes/gutachten');
+const checkinRoutes   = require('./routes/checkin');
+const reportingRoutes = require('./routes/reporting');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -63,6 +68,11 @@ app.use('/api/schaeden', schadenRoutes);
 app.use('/api/nutzer', nutzerRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/fotos', fotoRoutes);
+// v2 modules
+app.use('/api/kanban',    kanbanRoutes);
+app.use('/api/gutachten', gutachtenRoutes);
+app.use('/api/checkin',   checkinRoutes);
+app.use('/api/reporting', reportingRoutes);
 
 // 404
 app.use((req, res) => {

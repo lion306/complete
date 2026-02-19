@@ -171,4 +171,51 @@ export const exportApi = {
   toAutoScout: (data) => api.post('/export/autoscout', data),
 };
 
+// ---- Kanban ----
+export const kanbanApi = {
+  board: (standort_id) => api.get(`/kanban/board/${standort_id}`),
+  move: (data) => api.put('/kanban/move', data),
+  lanes: (standort_id) => api.get('/kanban/lanes', { params: { standort_id } }),
+  createLane: (data) => api.post('/kanban/lanes', data),
+  updateLane: (id, data) => api.put(`/kanban/lanes/${id}`, data),
+  bewegungen: (fahrzeug_id) => api.get(`/kanban/bewegungen/${fahrzeug_id}`),
+  updateCard: (id, data) => api.put(`/kanban/cards/${id}`, data),
+};
+
+// ---- Gutachten ----
+export const gutachtenApi = {
+  upload: (fahrzeug_id, formData, onProgress) => api.post(
+    `/gutachten/upload/${fahrzeug_id}`,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' }, onUploadProgress: onProgress }
+  ),
+  status: (id) => api.get(`/gutachten/${id}/status`),
+  retryOcr: (id) => api.post(`/gutachten/${id}/ocr-retry`),
+  setEntscheidung: (posId, data) => api.put(`/gutachten/positionen/${posId}/entscheidung`, data),
+  bulkEntscheidung: (data) => api.put('/gutachten/positionen/bulk-entscheidung', data),
+  positionenByFahrzeug: (fahrzeug_id) => api.get(`/gutachten/positionen/fahrzeug/${fahrzeug_id}`),
+};
+
+// ---- Check-in ----
+export const checkinApi = {
+  start: (data) => api.post('/checkin/start', data),
+  uploadFotos: (id, formData, onProgress) => api.post(
+    `/checkin/${id}/fotos`,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' }, onUploadProgress: onProgress }
+  ),
+  abschliessen: (id, data) => api.post(`/checkin/${id}/abschliessen`, data),
+  byVin: (vin) => api.get(`/checkin/vin/${vin}`),
+};
+
+// ---- Reporting ----
+export const reportingApi = {
+  standzeiten: (params) => api.get('/reporting/standzeiten', { params }),
+  standzeitenAmpel: (params) => api.get('/reporting/standzeiten/ampel', { params }),
+  kanbanAnalyse: (params) => api.get('/reporting/kanban-analyse', { params }),
+  kosten: (params) => api.get('/reporting/kosten', { params }),
+  schadenEntscheidungen: (params) => api.get('/reporting/schaden-entscheidungen', { params }),
+  fotos: (params) => api.get('/reporting/fotos', { params }),
+};
+
 export default api;
