@@ -8,6 +8,13 @@
   # Disable treating warnings as errors (CRA default)
   CI = "false"
 
+# Proxy: alle /api/* Anfragen werden an Railway weitergeleitet
+[[redirects]]
+  from   = "/api/*"
+  to     = "{{ RAILWAY_URL }}/api/:splat"
+  status = 200
+  force  = true
+
 # SPA fallback: all routes serve index.html (required for React Router)
 [[redirects]]
   from   = "/*"
