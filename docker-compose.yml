@@ -1,40 +1,30 @@
 version: '3.9'
 
-services:
-  db:
-    image: postgres:15-alpine
-    container_name: dms_postgres
-    environment:
-      POSTGRES_DB: dms_autohaus
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-dms_secret_2024}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
+# Datenbank: Supabase (extern, kein lokaler db-Container nötig)
+# Projekt-Ref: qetufwdvtejydjycgdbo
+# Dashboard: https://supabase.com/dashboard/project/qetufwdvtejydjycgdbo
 
+services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: dms_backend
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       NODE_ENV: production
       PORT: 3001
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: dms_autohaus
-      DB_USER: postgres
-      DB_PASSWORD: ${DB_PASSWORD:-dms_secret_2024}
+      # Supabase PostgreSQL
+      DB_HOST: ${DB_HOST:-db.qetufwdvtejydjycgdbo.supabase.co}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-postgres}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_SSL: "true"
+      # Supabase API
+      SUPABASE_URL: ${SUPABASE_URL:-https://qetufwdvtejydjycgdbo.supabase.co}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      # App
       JWT_SECRET: ${JWT_SECRET:-change_this_in_production_jwt_secret}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
     volumes:
@@ -56,6 +46,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  postgres_data:
   uploads_data:
   logs_data:

@@ -1,6 +1,9 @@
 const knex = require('knex');
 require('dotenv').config();
 
+const isSupabase = process.env.DB_HOST && process.env.DB_HOST.includes('supabase.co');
+const sslEnabled = process.env.DB_SSL === 'true' || isSupabase;
+
 const db = knex({
   client: 'pg',
   connection: {
@@ -9,7 +12,7 @@ const db = knex({
     database: process.env.DB_NAME || 'dms_autohaus',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || '',
-    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+    ssl: sslEnabled ? { rejectUnauthorized: false } : false,
   },
   pool: {
     min: 2,
