@@ -22,4 +22,4 @@ RUN mkdir -p uploads logs
 
 EXPOSE 3001
 
-CMD ["node", "src/server.js"]
+CMD ["node", "startup.js"]

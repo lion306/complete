@@ -50,15 +50,15 @@ async function seed() {
   }
 
   // Admin user
-  const [existingAdmin] = await db('nutzer').where({ email: 'admin@autohaus.de' });
+  const [existingAdmin] = await db('nutzer').where({ email: 'neumannhagen@gmail.com' });
   if (!existingAdmin) {
     const hash = await bcrypt.hash('Admin2024!', 12);
     await db('nutzer').insert({
       id: uuidv4(),
-      email: 'admin@autohaus.de',
+      email: 'neumannhagen@gmail.com',
       passwort_hash: hash,
-      vorname: 'System',
-      nachname: 'Administrator',
+      vorname: 'Hagen',
+      nachname: 'Neumann',
       rolle: 'superadmin',
       standort_id: standort.id,
       sichtbarkeit_alle_standorte: true,
@@ -79,7 +79,7 @@ async function seed() {
       perm_export_boersen: true,
       perm_admin: true,
     });
-    console.log('  Admin created: admin@autohaus.de / Admin2024!');
+    console.log('  Admin created: neumannhagen@gmail.com / Admin2024!');
   }
 
   // Demo Verkäufer
@@ -154,7 +154,7 @@ async function seed() {
         id,
         intern_nummer: `FZ-${nextNr}`,
         standort_id: standort.id,
-        erstellt_von: (await db('nutzer').where({ email: 'admin@autohaus.de' }).first())?.id,
+        erstellt_von: (await db('nutzer').where({ email: 'neumannhagen@gmail.com' }).first())?.id,
         ...fzData,
       });
       console.log(`  Fahrzeug: ${fzData.marke} ${fzData.modell}`);
@@ -184,7 +184,7 @@ async function seed() {
   }
 
   console.log('\nSeed complete!');
-  console.log('Login: admin@autohaus.de / Admin2024!');
+  console.log('Login: neumannhagen@gmail.com / Admin2024!');
   console.log('       mueller@autohaus.de / Autohaus2024!');
 }
 
