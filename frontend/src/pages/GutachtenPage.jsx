@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 import {
   DocumentArrowUpIcon, ArrowPathIcon, CheckCircleIcon,
   XCircleIcon, MinusCircleIcon, ClockIcon, CurrencyEuroIcon,
-  MagnifyingGlassIcon, DocumentTextIcon,
+  MagnifyingGlassIcon, DocumentTextIcon, TruckIcon,
 } from '@heroicons/react/24/outline';
 import api from '../utils/api';
 import { fahrzeugeApi } from '../utils/api';
