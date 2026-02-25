@@ -13,6 +13,7 @@ const db = knex({
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || '',
     ssl: sslEnabled ? { rejectUnauthorized: false } : false,
+    family: 4,
   },
   pool: {
     min: 2,
