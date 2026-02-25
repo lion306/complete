@@ -13,26 +13,9 @@ services:
     volumes:
       - uploads_data:/app/uploads
       - logs_data:/app/logs
-    restart: unless-stopped
-    networks:
-      - dms_network
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: dms_frontend
-    depends_on:
-      - backend
     ports:
-      - "3000:80"
+      - "3001:3001"
     restart: unless-stopped
-    networks:
-      - dms_network
-
-networks:
-  dms_network:
-    driver: bridge
 
 volumes:
   uploads_data:
